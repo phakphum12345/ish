@@ -43,6 +43,11 @@
     error = nil;
     XCTAssertNil([Workspace workspaceWithName:@"Personal" rootName:@"../outside" error:&error]);
     XCTAssertEqual(error.code, WorkspaceErrorInvalidRootName);
+
+    error = nil;
+    NSString *rootWithControlCharacter = [@"default" stringByAppendingString:@"\n"];
+    XCTAssertNil([Workspace workspaceWithName:@"Personal" rootName:rootWithControlCharacter error:&error]);
+    XCTAssertEqual(error.code, WorkspaceErrorInvalidRootName);
 }
 
 - (void)testWorkspaceRejectsUnknownSchemaVersion {
