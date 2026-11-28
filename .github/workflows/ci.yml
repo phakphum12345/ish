@@ -58,7 +58,7 @@ jobs:
       - name: Test workspace metadata model
         if: matrix.kernel == 'ish'
         run: |
-          DEVICE_ID="$(xcrun simctl list devices available | sed -nE 's/.*\\(([0-9A-F-]{36})\\).*/\\1/p' | head -n 1)"
+          DEVICE_ID="$(xcrun simctl list devices available | sed -nE 's/.*\(([0-9A-F-]{36})\).*/\1/p' | head -n 1)"
           if [ -z "$DEVICE_ID" ]; then
             echo "No available iOS Simulator device was found." >&2
             exit 1
