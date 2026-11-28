@@ -27,7 +27,7 @@ typedef NS_ERROR_ENUM(WorkspaceErrorDomain, WorkspaceErrorCode) {
 @property (nonatomic, copy, readonly) NSDate *updatedAt;
 @property (nonatomic, readonly) NSInteger schemaVersion;
 
-/// Creates a new workspace record referencing an existing iSH root by name.
+/// Creates a new workspace record referencing an iSH root by name. The store must verify root existence.
 /// This method does not create, rename, move, or delete the referenced root.
 + (nullable instancetype)workspaceWithName:(NSString *)name
                                   rootName:(NSString *)rootName
