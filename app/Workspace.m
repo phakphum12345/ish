@@ -53,7 +53,8 @@ static NSString * _Nullable WorkspaceValidatedRootName(NSString *rootName, NSErr
         rootName.length == 0 ||
         [rootName isEqualToString:@"."] ||
         [rootName isEqualToString:@".."] ||
-        [rootName containsString:@"/"]) {
+        [rootName containsString:@"/"] ||
+        [rootName rangeOfCharacterFromSet:NSCharacterSet.controlCharacterSet].location != NSNotFound) {
         if (error) *error = WorkspaceMakeError(WorkspaceErrorInvalidRootName, @"Workspace must reference a valid existing root name.");
         return nil;
     }
