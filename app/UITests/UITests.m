@@ -5,7 +5,7 @@
 
 #import <XCTest/XCTest.h>
 #include <math.h>
-#import "Workspace.h"
+#import "../Workspace.h"
 
 @interface UITests : XCTestCase
 @end
