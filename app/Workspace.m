@@ -31,13 +31,29 @@ static NSString * _Nullable WorkspaceValidatedName(NSString *name, NSError **err
     return normalized;
 }
 
+static NSString *WorkspaceISO8601StringFromDate(NSDate *date) {
+    NSISO8601DateFormatter *formatter = [NSISO8601DateFormatter new];
+    formatter.formatOptions = NSISO8601DateFormatWithInternetDateTime | NSISO8601DateFormatWithFractionalSeconds;
+    return [formatter stringFromDate:date];
+}
+
+static NSDate * _Nullable WorkspaceDateFromISO8601String(NSString *value) {
+    NSISO8601DateFormatter *formatter = [NSISO8601DateFormatter new];
+    formatter.formatOptions = NSISO8601DateFormatWithInternetDateTime | NSISO8601DateFormatWithFractionalSeconds;
+    NSDate *date = [formatter dateFromString:value];
+    if (!date) {
+        formatter.formatOptions = NSISO8601DateFormatWithInternetDateTime;
+        date = [formatter dateFromString:value];
+    }
+    return date;
+}
+
 static NSString * _Nullable WorkspaceValidatedRootName(NSString *rootName, NSError **error) {
     if (![rootName isKindOfClass:NSString.class] ||
         rootName.length == 0 ||
         [rootName isEqualToString:@"."] ||
         [rootName isEqualToString:@".."] ||
-        [rootName containsString:@"/"] ||
-        [rootName containsString:@"\\"]) {
+        [rootName containsString:@"/"]) {
         if (error) *error = WorkspaceMakeError(WorkspaceErrorInvalidRootName, @"Workspace must reference a valid existing root name.");
         return nil;
     }
@@ -88,7 +104,7 @@ static NSString * _Nullable WorkspaceValidatedRootName(NSString *rootName, NSErr
     if (!validatedRootName) return nil;
 
     NSDate *now = [NSDate date];
-    return [[self alloc] initWithIdentifier:NSUUID.UUID
+    return [[self alloc] initWithIdentifier:[NSUUID UUID]
                                        name:validatedName
                                    rootName:validatedRootName
                                   createdAt:now
@@ -123,18 +139,20 @@ static NSString * _Nullable WorkspaceValidatedRootName(NSString *rootName, NSErr
         ![nameValue isKindOfClass:NSString.class] ||
         ![kindValue isKindOfClass:NSString.class] ||
         ![rootValue isKindOfClass:NSString.class] ||
-        ![createdValue isKindOfClass:NSDate.class] ||
-        ![updatedValue isKindOfClass:NSDate.class] ||
+        ![createdValue isKindOfClass:NSString.class] ||
+        ![updatedValue isKindOfClass:NSString.class] ||
         ![kindValue isEqualToString:WorkspaceKindRoot]) {
         if (error) *error = WorkspaceMakeError(WorkspaceErrorInvalidRecord, @"Workspace record contains missing or invalid fields.");
         return nil;
     }
 
     NSUUID *identifier = [[NSUUID alloc] initWithUUIDString:identifierValue];
+    NSDate *createdAt = WorkspaceDateFromISO8601String(createdValue);
+    NSDate *updatedAt = WorkspaceDateFromISO8601String(updatedValue);
     NSError *validationError = nil;
     NSString *validatedName = WorkspaceValidatedName(nameValue, &validationError);
     NSString *validatedRootName = WorkspaceValidatedRootName(rootValue, &validationError);
-    if (!identifier || !validatedName || !validatedRootName ||
+    if (!identifier || !createdAt || !updatedAt || !validatedName || !validatedRootName ||
         ![validatedName isEqualToString:nameValue] ||
         ![validatedRootName isEqualToString:rootValue]) {
         if (error) *error = validationError ?: WorkspaceMakeError(WorkspaceErrorInvalidRecord, @"Workspace record is not canonical.");
@@ -144,8 +162,8 @@ static NSString * _Nullable WorkspaceValidatedRootName(NSString *rootName, NSErr
     return [[self alloc] initWithIdentifier:identifier
                                        name:validatedName
                                    rootName:validatedRootName
-                                  createdAt:createdValue
-                                  updatedAt:updatedValue];
+                                  createdAt:createdAt
+                                  updatedAt:updatedAt];
 }
 
 - (NSDictionary<NSString *,id> *)dictionaryRepresentation {
@@ -155,8 +173,8 @@ static NSString * _Nullable WorkspaceValidatedRootName(NSString *rootName, NSErr
         @"name": self.name,
         @"kind": WorkspaceKindRoot,
         @"rootName": self.rootName,
-        @"createdAt": self.createdAt,
-        @"updatedAt": self.updatedAt,
+        @"createdAt": WorkspaceISO8601StringFromDate(self.createdAt),
+        @"updatedAt": WorkspaceISO8601StringFromDate(self.updatedAt),
     };
 }
 
