@@ -55,6 +55,15 @@ jobs:
       - name: Build
         if: matrix.kernel == 'ish'
         run: xcodebuild -project iSH.xcodeproj -scheme iSH -arch arm64 -sdk iphoneos CODE_SIGNING_ALLOWED=NO
+      - name: Test workspace metadata model
+        if: matrix.kernel == 'ish'
+        run: |
+          DEVICE_ID="$(xcrun simctl list devices available | sed -nE 's/.*\\(([0-9A-F-]{36})\\).*/\\1/p' | head -n 1)"
+          if [ -z "$DEVICE_ID" ]; then
+            echo "No available iOS Simulator device was found." >&2
+            exit 1
+          fi
+          xcodebuild -project iSH.xcodeproj -scheme iSH -destination "platform=iOS Simulator,id=$DEVICE_ID" -only-testing:iSHUITests/UITests -parallel-testing-enabled NO test CODE_SIGNING_ALLOWED=NO
       - name: Build
         if: matrix.kernel == 'linux'
         run: xcodebuild -project iSH.xcodeproj -scheme iSH+Linux -arch x86_64 -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO
