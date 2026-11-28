@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D15C0A000000000000000003 /* Workspace.m in Sources */ = {isa = PBXBuildFile; fileRef = D15C0A000000000000000002 /* Workspace.m */; };
+		D15C0A000000000000000004 /* Workspace.m in UITests Sources */ = {isa = PBXBuildFile; fileRef = D15C0A000000000000000002 /* Workspace.m */; };
+
 		0FC2383C2991FBA6004C09EC /* mmx.c in Sources */ = {isa = PBXBuildFile; fileRef = 0FC2383B2991FB82004C09EC /* mmx.c */; };
 		491B31E62883BF22008EEFB0 /* ThemeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 491B31E52883BF22008EEFB0 /* ThemeViewController.m */; };
 		49302D8E277669D300C9885A /* ish.c in Sources */ = {isa = PBXBuildFile; fileRef = 49302D8D277669D300C9885A /* ish.c */; };
@@ -426,6 +429,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D15C0A000000000000000001 /* Workspace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Workspace.h; sourceTree = "<group>"; };
+		D15C0A000000000000000002 /* Workspace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Workspace.m; sourceTree = "<group>"; };
+
 		0FC2383B2991FB82004C09EC /* mmx.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = mmx.c; sourceTree = "<group>"; };
 		408A2639236440F8008A4E81 /* iOSFS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iOSFS.m; sourceTree = "<group>"; };
 		408A263B23644102008A4E81 /* iOSFS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSFS.h; sourceTree = "<group>"; };
@@ -889,6 +895,8 @@
 			children = (
 				BB10E5CC248DBE66009C7A74 /* Roots.h */,
 				BB10E5CD248DBE66009C7A74 /* Roots.m */,
+				D15C0A000000000000000001 /* Workspace.h */,
+				D15C0A000000000000000002 /* Workspace.m */,
 				BB10E5CF248DC21D009C7A74 /* Roots.storyboard */,
 				BB10E5D1248DCFEA009C7A74 /* RootsTableViewController.h */,
 				BB10E5D2248DCFEA009C7A74 /* RootsTableViewController.m */,
@@ -2138,6 +2146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BB41591F255EF9E300E0950C /* UITests.m in Sources */,
+				D15C0A000000000000000004 /* Workspace.m in UITests Sources */,
 				BBD23D5F258DA450003DCB40 /* Screenshots.m in Sources */,
 				BBD23D77258DA4BC003DCB40 /* SnapshotHelper.swift in Sources */,
 			);
@@ -2197,6 +2206,7 @@
 				BB28C79926896B1F00BDC834 /* DelayedUITask.m in Sources */,
 				497A08C029633FFA00B323CF /* hook.c in Sources */,
 				BB28C7BF2689799800BDC834 /* Roots.m in Sources */,
+				D15C0A000000000000000003 /* Workspace.m in Sources */,
 				BB28C79A26896B1F00BDC834 /* Terminal.m in Sources */,
 				BB28C79B26896B1F00BDC834 /* FontPickerViewController.m in Sources */,
 				BBC3863E276817A900CC8C2E /* UpgradeRootViewController.m in Sources */,
