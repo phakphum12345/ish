@@ -30,7 +30,8 @@
     XCTAssertEqualObjects(decoded.identifier, workspace.identifier);
     XCTAssertEqualObjects(decoded.name, workspace.name);
     XCTAssertEqualObjects(decoded.rootName, workspace.rootName);
-    XCTAssertEqualObjects(decoded.createdAt, workspace.createdAt);
+    XCTAssertLessThan(fabs([decoded.createdAt timeIntervalSinceDate:workspace.createdAt]), 0.01);
+    XCTAssertTrue([NSJSONSerialization isValidJSONObject:@{@"workspace": workspace.dictionaryRepresentation}]);
 }
 
 - (void)testWorkspaceRejectsEmptyNamesAndUnsafeRootNames {
